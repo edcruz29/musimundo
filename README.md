@@ -32,3 +32,4 @@ Utilizado o layout do desafio 4 da comunidade Codelândia para a criação do lo
 - Incluir o relacionamento das tabelas;
 - Incluir imagens dos Álbuns;
 - Incluir playlists;
+- Integrar Api de login do Google.
