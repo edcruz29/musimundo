@@ -45,6 +45,6 @@ router.delete('/excluir/:id', async(req,res,next)=>{
 router.get('/search', async(req,res,next)=>{
   const {key} = req.query;
   const albuns = await albunsController.pesquisar(key);
-  return res.render('albuns', {albuns});
+  return res.render('albuns', { albuns, usuario: req.session.usuario});
 })
 module.exports = router;
