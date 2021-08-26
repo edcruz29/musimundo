@@ -4,26 +4,72 @@ const Op = Sequelize.Op
 
 exports.listarTodos = () =>
   db.Album.findAll({
-   /* include:{
+   include:{
       model:db.Artista,
       as:'artista',
-      required:true
-    },*/
+      required:true,
+      
+    },distinct: true
   } 
-  ).then((rows) => rows.map((row) => row.dataValues));
+  );
 
 exports.editar =({id})=> 
-db.Album.findByPk(id);
+db.Album.findByPk(id,{
+  include:{
+    model:db.Artista,
+    as:'artista',
+    required:true,
+  }
+});
 
-exports.cadastrarNovoAlbum = ({titulo,id_artista}) =>
-  db.Album.create({titulo,id_artista});
+exports.cadastrarNovoAlbum = async ({titulo,artista}) =>{
+ const buscarArtista = await db.Artista.findOne({
+    where: {
+      nome:artista
+    }
+    
+  })
+  if(!buscarArtista){
+    throw new Error('Artista Não Encontrado');
+  }
+  const id_artista = buscarArtista.id
+  db.Album.create({titulo,id_artista})
+}
+/*
+exports.cadastrarNovoAlbum = async ({titulo,artista}) =>{
+  const buscarArtista = await db.Artista.findOne({
+    where: {
+      nome:artista
+    }
+});
+console.log(buscarArtista);
+await buscarArtista.createAlbuns({titulo})
+}*/
 
-exports.atualizarAlbum = ({id, titulo,id_artista})=>
-  db.Album.update({titulo,id_artista}, {where:{id}});
+
+exports.atualizarAlbum = async ({id, titulo,artista})=>{
+const buscarArtista = await db.Artista.findOne({
+  where: {
+    nome:artista
+  }
+  
+})
+if(!buscarArtista){
+  throw new Error('Artista Não Encontrado');
+}
+  const id_artista = buscarArtista.id
+
+  db.Album.update({titulo,id_artista}, {where:{id}})}
+
 
 exports.excluirAlbum = (id)=> db.Album.destroy({where:{id}});
 
 exports.filtrar = key=> db.Album.findAll(
-  {where:
+  { include:{
+    model:db.Artista,
+    as:'artista',
+    required:true
+  },
+    where:
     {titulo:
       {[Op.like]:`%${key}%`}}}).then((rows) => rows.map((row) => row.dataValues));

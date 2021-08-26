@@ -27,7 +27,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Titulo</th>
                 <th scope="col">Artista</th>
                 <th scope="col">Editar</th>
@@ -38,9 +37,8 @@
         <tbody>
             <% albuns.forEach(album=>{ %>
                 <tr>
-                    <th scope="row"><%=album.id%></th>
-                    <th><%=album.titulo%></th>
-                    <th><%=album.id_artista%></th>
+                    <th scope="row"><%=album.titulo%></th>
+                    <th><%=album.artista.nome%></th>
                     <th><a href="/editar/<%=album.id%>"><button class="btn btn-primary">Editar</button></a></th>
                     <form action="/excluir/<%=album.id%>?_method=DELETE" method='POST' class="card p-3">
                         <th><Button class="btn btn-danger">Excluir</Button></th>
