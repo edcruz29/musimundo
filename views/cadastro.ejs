@@ -24,7 +24,9 @@
       </div>
       <div class="form-group">
           <label for="artista">Artista</label>
-          <select class="form-control" name="artista" id="artista">
+          <select class="form-select" name="artista" id="artista">
+              
+              <option value="" selected disabled></option>
               <% artistas.forEach(artista=>{ %>
               <option name="artista" value="<%=artista.nome%>"><%=artista.nome%></option>
                <% }) %>
